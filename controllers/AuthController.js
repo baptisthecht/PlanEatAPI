@@ -16,7 +16,12 @@ export const login = async (req, res) => {
 		const passwordMatches = compareSync(password, userExists.password);
 		if (passwordMatches) {
 			const token = sign(
-				{ email: userExists.email },
+				{
+					id: userExists._id,
+					email: userExists.email,
+					first_name: userExists.first_name,
+					last_name: userExists.last_name,
+				},
 				process.env.JWT_SECRET
 			);
 			res.status(200).json({ success: true, user: userExists, token });
