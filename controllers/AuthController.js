@@ -19,8 +19,8 @@ export const login = async (req, res) => {
 				{
 					id: userExists._id,
 					email: userExists.email,
-					first_name: userExists.first_name,
-					last_name: userExists.last_name,
+					firstName: userExists.first_name,
+					lastName: userExists.last_name,
 				},
 				process.env.JWT_SECRET
 			);
