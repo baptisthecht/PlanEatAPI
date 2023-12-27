@@ -16,6 +16,7 @@ exports.cleanup = exports.register = exports.users = exports.login = void 0;
 const bcrypt_1 = require("bcrypt");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_js_1 = require("../models/User.js");
+const Booking_js_1 = require("../models/Booking.js");
 const { sign } = jsonwebtoken_1.default;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
@@ -31,13 +32,13 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     else {
         const passwordMatches = (0, bcrypt_1.compareSync)(password, userExists.password || "");
         if (passwordMatches) {
-            // const userBookings = await Booking.find({ userId: userExists._id });
+            const userBookings = yield Booking_js_1.Booking.find({ userId: userExists._id });
             const token = sign({
                 id: userExists._id,
                 email: userExists.email,
                 firstName: userExists.first_name,
                 lastName: userExists.last_name,
-                // bookings: userBookings,
+                bookings: userBookings,
             }, process.env.JWT_SECRET || "");
             res.status(200).json({ success: true, user: userExists, token });
         }

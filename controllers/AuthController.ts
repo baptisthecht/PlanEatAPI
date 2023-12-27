@@ -21,14 +21,14 @@ export const login = async (req: any, res: any) => {
 			userExists.password || ""
 		);
 		if (passwordMatches) {
-			// const userBookings = await Booking.find({ userId: userExists._id });
+			const userBookings = await Booking.find({ userId: userExists._id });
 			const token = sign(
 				{
 					id: userExists._id,
 					email: userExists.email,
 					firstName: userExists.first_name,
 					lastName: userExists.last_name,
-					// bookings: userBookings,
+					bookings: userBookings,
 				},
 				process.env.JWT_SECRET || ""
 			);
