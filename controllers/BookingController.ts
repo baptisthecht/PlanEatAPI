@@ -191,7 +191,11 @@ const updateStatusByBookingId = async (bookingId: any, status: any) => {
 		}
 	);
 	if (!updatedBooking) return "Not found";
-	if (status == "confirmed" && updatedBooking.referedUserId) {
+	if (
+		status == "confirmed" &&
+		updatedBooking.referedUserId &&
+		!updatedBooking.referedUserPaid
+	) {
 		const user = await User.findById(updatedBooking.referedUserId);
 		if (user && user.balance) {
 			user.balance = user.balance + 50;

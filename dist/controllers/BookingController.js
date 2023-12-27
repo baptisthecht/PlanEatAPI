@@ -136,7 +136,9 @@ const updateStatusByBookingId = (bookingId, status) => __awaiter(void 0, void 0,
     });
     if (!updatedBooking)
         return "Not found";
-    if (status == "confirmed" && updatedBooking.referedUserId) {
+    if (status == "confirmed" &&
+        updatedBooking.referedUserId &&
+        !updatedBooking.referedUserPaid) {
         const user = yield User_1.User.findById(updatedBooking.referedUserId);
         if (user && user.balance) {
             user.balance = user.balance + 50;
