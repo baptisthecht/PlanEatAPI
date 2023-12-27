@@ -2,18 +2,19 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import pkg from "jsonwebtoken";
-import { User } from "./models/User.js";
-import { compareSync, genSaltSync, hashSync } from "bcrypt";
 import AuthRouter from "./routes/AuthRouter.js";
-
-const { sign } = pkg;
+import BookingRouter from "./routes/BookingRouter.js";
+import RestaurantRouter from "./routes/RestaurantRouter.js";
+import TableRouter from "./routes/TableRouter.js";
+import { Time } from "./models/Time.js";
 
 mongoose
 	.connect(
 		"mongodb+srv://bahct:allezlille@cluster0.swmjfyr.mongodb.net/?retryWrites=true&w=majority"
 	)
+	// tslint:disable-next-line:no-console
 	.then(() => console.log("Connected to MongoDB"))
+	// tslint:disable-next-line:no-console
 	.catch((err) => console.log(err));
 
 const app = express();
@@ -26,8 +27,12 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/auth", AuthRouter);
+app.use("/booking", BookingRouter);
+app.use("/restaurant", RestaurantRouter);
+app.use("/table", TableRouter);
 
 app.listen(8800, () => {
+	// tslint:disable-next-line:no-console
 	console.log("API Working!");
 });
 

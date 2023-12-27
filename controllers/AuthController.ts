@@ -1,11 +1,14 @@
 import { compareSync, hashSync, genSaltSync } from "bcrypt";
 import pkg from "jsonwebtoken";
 import { User } from "../models/User.js";
+import { Booking } from "../models/Booking.js";
 
 const { sign } = pkg;
 
-export const login = async (req, res) => {
+export const login = async (req: any, res: any) => {
 	const { email, password } = req.body;
+	if (!email || !password)
+		return res.status(400).json({ success: false, msg: "Missing fields" });
 	const userExists = await User.findOne({ email });
 	if (!userExists) {
 		res.status(401).json({
@@ -13,16 +16,21 @@ export const login = async (req, res) => {
 			msg: "This user doesn't exists",
 		});
 	} else {
-		const passwordMatches = compareSync(password, userExists.password);
+		const passwordMatches = compareSync(
+			password,
+			userExists.password || ""
+		);
 		if (passwordMatches) {
+			// const userBookings = await Booking.find({ userId: userExists._id });
 			const token = sign(
 				{
 					id: userExists._id,
 					email: userExists.email,
 					firstName: userExists.first_name,
 					lastName: userExists.last_name,
+					// bookings: userBookings,
 				},
-				process.env.JWT_SECRET
+				process.env.JWT_SECRET || ""
 			);
 			res.status(200).json({ success: true, user: userExists, token });
 		} else {
@@ -31,12 +39,12 @@ export const login = async (req, res) => {
 	}
 };
 
-export const users = async (req, res) => {
+export const users = async (req: any, res: any) => {
 	const users = await User.find();
 	res.status(200).json({ success: true, users });
 };
 
-export const register = async (req, res) => {
+export const register = async (req: any, res: any) => {
 	const { first_name, last_name, email, password } = req.body;
 	if (!first_name || !last_name || !email || !password)
 		return res.status(400).json({ success: false, msg: "Missing fields" });
@@ -48,10 +56,10 @@ export const register = async (req, res) => {
 		email,
 		password: hashedPassword,
 	});
-	res.status(201).json({ success: true, user: user });
+	res.status(201).json({ success: true, user });
 };
 
-export const cleanup = async (req, res) => {
+export const cleanup = async (req: any, res: any) => {
 	const users = await User.deleteMany();
 	res.status(200).json({ success: true, users });
 };
