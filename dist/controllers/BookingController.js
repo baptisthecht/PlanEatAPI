@@ -141,6 +141,11 @@ const updateStatusByBookingId = (bookingId, status) => __awaiter(void 0, void 0,
         if (user && user.balance) {
             user.balance = user.balance + 50;
             yield user.save();
+            let updatedPaidBooking = yield Booking_1.Booking.findOneAndUpdate({
+                _id: bookingId,
+            }, {
+                referedUserPaid: true,
+            });
         }
     }
     return updatedBooking;

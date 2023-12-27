@@ -17,6 +17,10 @@ const bookingSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "User",
 	},
+	referedUserPaid: {
+		type: Boolean,
+		default: false,
+	},
 	bookingDate: {
 		type: Date,
 		required: true,

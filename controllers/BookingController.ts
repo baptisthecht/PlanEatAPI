@@ -196,8 +196,17 @@ const updateStatusByBookingId = async (bookingId: any, status: any) => {
 		if (user && user.balance) {
 			user.balance = user.balance + 50;
 			await user.save();
+			let updatedPaidBooking = await Booking.findOneAndUpdate(
+				{
+					_id: bookingId,
+				},
+				{
+					referedUserPaid: true,
+				}
+			);
 		}
 	}
+
 	return updatedBooking;
 };
 
