@@ -2,6 +2,7 @@ import { Booking } from "../models/Booking";
 import { Restaurant } from "../models/Restaurant";
 import { Table } from "../models/Table";
 import { Time } from "../models/Time";
+import { User } from "../models/User";
 
 function isTimeBetween(
 	startTime: any,
@@ -190,11 +191,19 @@ const updateStatusByBookingId = async (bookingId: any, status: any) => {
 		}
 	);
 	if (!updatedBooking) return "Not found";
+	if (status == "confirmed" && updatedBooking.referedUserId) {
+		const user = await User.findById(updatedBooking.referedUserId);
+		if (user && user.balance) {
+			user.balance = user.balance + 50;
+			await user.save();
+		}
+	}
 	return updatedBooking;
 };
 
 export const store = async (req: any, res: any) => {
-	const { restaurantId, userId, bookingDate, numberOfPeople } = req.body;
+	const { restaurantId, userId, bookingDate, numberOfPeople, referedUserId } =
+		req.body;
 	if (!restaurantId || !userId || !bookingDate || !numberOfPeople)
 		return res
 			.status(400)
@@ -271,6 +280,7 @@ export const store = async (req: any, res: any) => {
 	const booking = new Booking({
 		tableIds: selectedTablesIds,
 		userId,
+		referedUserId: referedUserId ? referedUserId : null,
 		bookingDate: date,
 		numberOfPeople,
 		releaseTime: new Date(dateplusaverage),

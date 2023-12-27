@@ -13,6 +13,10 @@ const bookingSchema = new mongoose.Schema({
 		ref: "User",
 		required: true,
 	},
+	referedUserId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "User",
+	},
 	bookingDate: {
 		type: Date,
 		required: true,
@@ -27,8 +31,8 @@ const bookingSchema = new mongoose.Schema({
 	},
 	status: {
 		type: String,
-		enum: ["confirmed", "cancelled"],
-		default: "confirmed",
+		enum: ["pending", "confirmed", "cancelled"],
+		default: "pending",
 	},
 	restaurantId: {
 		type: mongoose.Schema.Types.ObjectId,

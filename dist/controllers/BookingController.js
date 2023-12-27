@@ -14,6 +14,7 @@ const Booking_1 = require("../models/Booking");
 const Restaurant_1 = require("../models/Restaurant");
 const Table_1 = require("../models/Table");
 const Time_1 = require("../models/Time");
+const User_1 = require("../models/User");
 function isTimeBetween(startTime, endTime, targetTime, averageTime) {
     const format = "HH:mm"; // Assuming the time format is in hours and minutes
     const startDateTime = new Date(`2000-01-01 ${startTime}`);
@@ -135,10 +136,17 @@ const updateStatusByBookingId = (bookingId, status) => __awaiter(void 0, void 0,
     });
     if (!updatedBooking)
         return "Not found";
+    if (status == "confirmed" && updatedBooking.referedUserId) {
+        const user = yield User_1.User.findById(updatedBooking.referedUserId);
+        if (user && user.balance) {
+            user.balance = user.balance + 50;
+            yield user.save();
+        }
+    }
     return updatedBooking;
 });
 const store = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { restaurantId, userId, bookingDate, numberOfPeople } = req.body;
+    const { restaurantId, userId, bookingDate, numberOfPeople, referedUserId } = req.body;
     if (!restaurantId || !userId || !bookingDate || !numberOfPeople)
         return res
             .status(400)
@@ -209,6 +217,7 @@ const store = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const booking = new Booking_1.Booking({
         tableIds: selectedTablesIds,
         userId,
+        referedUserId: referedUserId ? referedUserId : null,
         bookingDate: date,
         numberOfPeople,
         releaseTime: new Date(dateplusaverage),
