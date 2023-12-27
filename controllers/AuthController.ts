@@ -67,6 +67,6 @@ export const cleanup = async (req: any, res: any) => {
 
 export const getUserDynamicData = async (req: any, res: any) => {
 	const { userId } = req.body;
-	const user = await User.findById(id);
+	const user = await User.findById(userId);
 	res.status(200).json({ success: true, balance: user?.balance });
 };
