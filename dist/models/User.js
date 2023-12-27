@@ -10,5 +10,6 @@ const UserSchema = new mongoose_1.default.Schema({
     last_name: String,
     email: String,
     password: String,
+    balance: Number,
 });
 exports.User = mongoose_1.default.model("User", UserSchema);

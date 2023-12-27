@@ -10,4 +10,5 @@ router.post("/login", AuthController_js_1.login);
 router.post("/register", AuthController_js_1.register);
 router.get("/users", AuthController_js_1.users);
 router.delete("/cleanup", AuthController_js_1.cleanup);
+router.post("/getUserDynamicData", AuthController_js_1.getUserDynamicData);
 exports.default = router;

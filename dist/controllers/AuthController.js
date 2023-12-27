@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cleanup = exports.register = exports.users = exports.login = void 0;
+exports.getUserDynamicData = exports.cleanup = exports.register = exports.users = exports.login = void 0;
 const bcrypt_1 = require("bcrypt");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_js_1 = require("../models/User.js");
@@ -64,6 +64,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         last_name,
         email,
         password: hashedPassword,
+        balance: 0,
     });
     res.status(201).json({ success: true, user });
 });
@@ -73,3 +74,9 @@ const cleanup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.status(200).json({ success: true, users });
 });
 exports.cleanup = cleanup;
+const getUserDynamicData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req.body;
+    const user = yield User_js_1.User.findById(id);
+    res.status(200).json({ success: true, balance: user === null || user === void 0 ? void 0 : user.balance });
+});
+exports.getUserDynamicData = getUserDynamicData;

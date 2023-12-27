@@ -6,7 +6,6 @@ import AuthRouter from "./routes/AuthRouter.js";
 import BookingRouter from "./routes/BookingRouter.js";
 import RestaurantRouter from "./routes/RestaurantRouter.js";
 import TableRouter from "./routes/TableRouter.js";
-import { Time } from "./models/Time.js";
 
 mongoose
 	.connect(
@@ -32,7 +31,6 @@ app.use("/restaurant", RestaurantRouter);
 app.use("/table", TableRouter);
 
 app.listen(8800, () => {
-	// tslint:disable-next-line:no-console
 	console.log("API Working!");
 });
 

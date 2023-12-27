@@ -29,7 +29,6 @@ app.use("/booking", BookingRouter_js_1.default);
 app.use("/restaurant", RestaurantRouter_js_1.default);
 app.use("/table", TableRouter_js_1.default);
 app.listen(8800, () => {
-    // tslint:disable-next-line:no-console
     console.log("API Working!");
 });
 exports.default = app;

@@ -55,6 +55,7 @@ export const register = async (req: any, res: any) => {
 		last_name,
 		email,
 		password: hashedPassword,
+		balance: 0,
 	});
 	res.status(201).json({ success: true, user });
 };
@@ -62,4 +63,10 @@ export const register = async (req: any, res: any) => {
 export const cleanup = async (req: any, res: any) => {
 	const users = await User.deleteMany();
 	res.status(200).json({ success: true, users });
+};
+
+export const getUserDynamicData = async (req: any, res: any) => {
+	const { userId } = req.body;
+	const user = await User.findById(id);
+	res.status(200).json({ success: true, balance: user?.balance });
 };
