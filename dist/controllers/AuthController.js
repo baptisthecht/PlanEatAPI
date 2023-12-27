@@ -76,7 +76,7 @@ const cleanup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.cleanup = cleanup;
 const getUserDynamicData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.body;
-    const user = yield User_js_1.User.findById(id);
+    const user = yield User_js_1.User.findById(userId);
     res.status(200).json({ success: true, balance: user === null || user === void 0 ? void 0 : user.balance });
 });
 exports.getUserDynamicData = getUserDynamicData;
