@@ -143,7 +143,7 @@ const updateStatusByBookingId = (bookingId, status) => __awaiter(void 0, void 0,
         if (user && user.balance) {
             user.balance = user.balance + 50;
             yield user.save();
-            let updatedPaidBooking = yield Booking_1.Booking.findOneAndUpdate({
+            yield Booking_1.Booking.findOneAndUpdate({
                 _id: bookingId,
             }, {
                 referedUserPaid: true,
@@ -289,7 +289,7 @@ const getBookingsByUser = (req, res) => __awaiter(void 0, void 0, void 0, functi
     if (!userId)
         return res.status(400).json({ success: false, message: "Missing id" });
     const bookings = yield Booking_1.Booking.find({ userId: userId });
-    res.status(200).json({ success: true, bookings });
+    res.status(200).json({ success: true, bookings: bookings.reverse() });
 });
 exports.getBookingsByUser = getBookingsByUser;
 const getBookingsByRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

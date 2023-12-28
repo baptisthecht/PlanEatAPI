@@ -200,7 +200,7 @@ const updateStatusByBookingId = async (bookingId: any, status: any) => {
 		if (user && user.balance) {
 			user.balance = user.balance + 50;
 			await user.save();
-			let updatedPaidBooking = await Booking.findOneAndUpdate(
+			await Booking.findOneAndUpdate(
 				{
 					_id: bookingId,
 				},
@@ -360,7 +360,7 @@ export const getBookingsByUser = async (req: any, res: any) => {
 	if (!userId)
 		return res.status(400).json({ success: false, message: "Missing id" });
 	const bookings = await Booking.find({ userId: userId });
-	res.status(200).json({ success: true, bookings });
+	res.status(200).json({ success: true, bookings: bookings.reverse() });
 };
 
 export const getBookingsByRestaurant = async (req: any, res: any) => {
