@@ -8,9 +8,7 @@ import RestaurantRouter from "./routes/RestaurantRouter.js";
 import TableRouter from "./routes/TableRouter.js";
 
 mongoose
-	.connect(
-		"mongodb+srv://bahct:allezlille@cluster0.swmjfyr.mongodb.net/?retryWrites=true&w=majority"
-	)
+	.connect(process.env.MONGO_URL)
 	// tslint:disable-next-line:no-console
 	.then(() => console.log("Connected to MongoDB"))
 	// tslint:disable-next-line:no-console
