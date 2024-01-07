@@ -12,7 +12,7 @@ const BookingRouter_js_1 = __importDefault(require("./routes/BookingRouter.js"))
 const RestaurantRouter_js_1 = __importDefault(require("./routes/RestaurantRouter.js"));
 const TableRouter_js_1 = __importDefault(require("./routes/TableRouter.js"));
 mongoose_1.default
-    .connect("mongodb+srv://bahct:allezlille@cluster0.swmjfyr.mongodb.net/?retryWrites=true&w=majority")
+    .connect(process.env.MONGO_URL)
     // tslint:disable-next-line:no-console
     .then(() => console.log("Connected to MongoDB"))
     // tslint:disable-next-line:no-console
